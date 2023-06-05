@@ -3,7 +3,7 @@ import { Navbar, Dropdown, Avatar } from "flowbite-react";
 
 const Nav = () => {
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="w-full max-w-screen-xl m-auto">
       <Navbar.Brand href="#">
         <img
           alt="Flowbite React Logo"

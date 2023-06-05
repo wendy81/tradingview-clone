@@ -20,7 +20,7 @@ const Coins = () => {
 
   return (
     <div>
-      <Table hoverable className="w-4/5 m-auto my-5">
+      <Table hoverable className="w-full max-w-screen-xl m-auto my-5">
         <Table.Head>
           <Table.HeadCell></Table.HeadCell>
           <Table.HeadCell>Rank</Table.HeadCell>
@@ -41,9 +41,9 @@ const Coins = () => {
                 <span className="mx-2 text-gray-900 dark:text-white">{coin.name}</span>
                 <span className="text-grey-100">{coin.symbol}</span>
               </Table.Cell>
-              <Table.Cell className="text-right">{coin.price}</Table.Cell>
-              <Table.Cell className="text-right">{coin.change}</Table.Cell>
-              <Table.Cell className="text-right">{coin.marketCap}</Table.Cell>
+              <Table.Cell className="text-right">{Number(coin.price).toFixed(5)}</Table.Cell>
+              <Table.Cell className={ (Number(coin.change) < 0) ? "text-red-500 text-right" : "text-green-500 text-right"}>{coin.change}</Table.Cell>
+              <Table.Cell className="text-right">{Number(coin.marketCap).toLocaleString()}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
