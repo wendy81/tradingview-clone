@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Nav from './components/Nav';
 import Home from './components/Home';
+import CoinDetail from './components/CoinDetail';
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home></Home>}></Route>
+        <Route path='/coins/:id' element={<CoinDetail></CoinDetail>}></Route>
       </Routes>
     </div>
   );

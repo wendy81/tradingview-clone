@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Checkbox } from "flowbite-react/lib/esm";
+import { Link } from "react-router-dom";
 
 const Coins = () => {
   const [coins, setCoins] = useState();
@@ -38,7 +39,10 @@ const Coins = () => {
               <Table.Cell>{coin.rank}</Table.Cell>
               <Table.Cell className="flex justify-start items-center whitespace-nowrap font-medium">
                 <img src={coin.iconUrl} className="w-7"></img>
+                <Link to={`/coins/${coin.uuid}`}>
                 <span className="mx-2 text-gray-900 dark:text-white">{coin.name}</span>
+                </Link>
+                
                 <span className="text-grey-100">{coin.symbol}</span>
               </Table.Cell>
               <Table.Cell className="text-right">{Number(coin.price).toFixed(5)}</Table.Cell>
