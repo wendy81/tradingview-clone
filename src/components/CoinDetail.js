@@ -17,10 +17,17 @@ const CoinDetail = () => {
 
     fetch(`https://api.coinranking.com/v2/coin/${id}/history`, options)
       .then((response) => response.json())
-      .then((data) => console.log(data));
+      .then((data) => setHistory(data.data.history));
+
+      //history ? console.log(history) : console.log("çalışmıyor")
+
   }, []);
 
-  return <div>{id}</div>;
+  return (
+    <div>
+      {id}
+    </div>
+  );
 };
 
 export default CoinDetail;
