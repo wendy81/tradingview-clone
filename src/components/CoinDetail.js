@@ -1,6 +1,7 @@
 import { ColorType, createChart } from "lightweight-charts";
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { Card, Badge } from "flowbite-react";
 
 const CoinDetail = () => {
   const chartContainerRef = useRef();
@@ -9,21 +10,15 @@ const CoinDetail = () => {
   const { id } = params;
 
   const [priceHistory, setPriceHistory] = useState([]);
-
-  const options = {
-    headers: {
-      "x-access-token":
-        "coinrankingffd88d7f1f3ded6efdd4294f69bc4947eaeea7a7afd17f66",
-    },
-  };
+  const [coin, setCoin] = useState({});
 
   useEffect(() => {
     const chart = createChart(chartContainerRef.current, {
       layout: {
         background: { type: ColorType.Solid, color: "white" },
       },
-      width: 500,
-      height: 200,
+      width: chartContainerRef.current.clientWidth,
+      height: 500,
     });
 
     const newSeries = chart.addAreaSeries({
@@ -34,8 +29,7 @@ const CoinDetail = () => {
 
     if (priceHistory.length > 0) {
       newSeries.setData(priceHistory);
-    }
-    else {
+    } else {
       newSeries.setData(initialData);
     }
 
@@ -47,6 +41,13 @@ const CoinDetail = () => {
   }, [priceHistory]);
 
   useEffect(() => {
+    const options = {
+      headers: {
+        "x-access-token":
+          "coinrankingffd88d7f1f3ded6efdd4294f69bc4947eaeea7a7afd17f66",
+      },
+    };
+
     fetch(
       `https://api.coinranking.com/v2/coin/${id}/history?timePeriod=1y`,
       options
@@ -59,7 +60,11 @@ const CoinDetail = () => {
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
-  }, [id, options]);
+
+    fetch(`https://api.coinranking.com/v2/coin/${id}`, options)
+      .then((response) => response.json())
+      .then((result) => setCoin(result.data.coin));
+  }, [id]);
 
   const convertData = (apiResponse) => {
     return apiResponse
@@ -85,11 +90,46 @@ const CoinDetail = () => {
     { time: "2018-12-31", value: 22.67 },
   ];
 
-  priceHistory ? console.log(priceHistory) : console.log("calismiyor");
+  console.log(coin);
 
   return (
     <div>
-      <div ref={chartContainerRef}></div>
+      <Card className="w-full max-w-screen-xl m-auto my-5" href="#">
+        <div className="flex justify-start items-center">
+          <img src={coin?.iconUrl} className="w-7"></img>
+          <h5 className="mx-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            {coin?.name} Price Chart
+          </h5>
+        </div>
+
+        <div className="w-11/12 m-auto" ref={chartContainerRef}></div>
+
+        <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <p>Description</p>
+        </h5>
+        <p className="font-normal text-gray-700 dark:text-gray-400">
+          {coin?.description}
+        </p>
+
+        <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <p>Related Links</p>
+        </h5>
+        <div className="flex">
+          <Badge color="info">
+            <a href={coin?.websiteUrl} target="blank">
+              Website
+            </a>
+          </Badge>
+
+          {coin.links?.map((link) => (
+            <Badge color="info" className="mx-2">
+              <a href={link.url} target="blank">
+                {link.name}
+              </a>
+            </Badge>
+          ))}
+        </div>
+      </Card>
     </div>
   );
 };
