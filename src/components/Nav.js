@@ -1,18 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Navbar, Dropdown, Avatar } from "flowbite-react";
 
 const Nav = () => {
   return (
     <Navbar fluid rounded className="w-full max-w-screen-xl m-auto">
       <Navbar.Brand href="#">
-        <img
-          alt="Flowbite React Logo"
-          className="mr-3 h-6 sm:h-9"
-          src="https://preview.redd.it/n20zr2c13vb71.png?width=460&format=png&auto=webp&v=enabled&s=61ecaeb144579520463435437437dd11b37f1a48"
-        />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          TradingView
-        </span>
+        <Link to="/" className="flex">
+          <img
+            alt="Flowbite React Logo"
+            className="mr-3 h-6 sm:h-9"
+            src="https://preview.redd.it/n20zr2c13vb71.png?width=460&format=png&auto=webp&v=enabled&s=61ecaeb144579520463435437437dd11b37f1a48"
+          />
+          <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+            TradingView
+          </span>
+        </Link>
       </Navbar.Brand>
       <div className="flex md:order-2">
         <Dropdown
@@ -40,13 +43,10 @@ const Nav = () => {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link active href="#">
+        <Navbar.Link active href="/">
           <p>Home</p>
         </Navbar.Link>
-        <Navbar.Link href="#">About</Navbar.Link>
-        <Navbar.Link href="#">Services</Navbar.Link>
-        <Navbar.Link href="#">Pricing</Navbar.Link>
-        <Navbar.Link href="#">Contact</Navbar.Link>
+        <Navbar.Link href="/about">About</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );

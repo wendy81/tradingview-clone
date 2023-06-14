@@ -94,7 +94,7 @@ const CoinDetail = () => {
 
   return (
     <div>
-      <Card className="w-full max-w-screen-xl m-auto my-5" href="#">
+      <Card className="w-11/12 max-w-screen-xl m-auto my-5" href="#">
         <div className="flex justify-start items-center">
           <img src={coin?.iconUrl} className="w-7"></img>
           <h5 className="mx-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -114,15 +114,15 @@ const CoinDetail = () => {
         <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
           <p>Related Links</p>
         </h5>
-        <div className="flex">
-          <Badge color="info">
+        <div className="flex flex-wrap">
+          <Badge color="info" className="m-2">
             <a href={coin?.websiteUrl} target="blank">
               Website
             </a>
           </Badge>
 
           {coin.links?.map((link) => (
-            <Badge color="info" className="mx-2">
+            <Badge color="info" className="m-2">
               <a href={link.url} target="blank">
                 {link.name}
               </a>
