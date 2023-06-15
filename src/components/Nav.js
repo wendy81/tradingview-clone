@@ -1,8 +1,23 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Dropdown, Avatar } from "flowbite-react";
+import { Navbar, Dropdown, Avatar, Button } from "flowbite-react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../utils/Firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Nav = () => {
+  const [user, loading] = useAuthState(auth);
+
+  const googleProvider = new GoogleAuthProvider();
+
+  const GoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      console.log(result.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Navbar fluid rounded className="w-full max-w-screen-xl m-auto">
       <Navbar.Brand href="#">
@@ -18,30 +33,28 @@ const Nav = () => {
         </Link>
       </Navbar.Brand>
       <div className="flex md:order-2">
-        <Dropdown
-          inline
-          label={
-            <Avatar
-              alt="User settings"
-              img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-              rounded
-            />
-          }
-        >
-          <Dropdown.Header>
-            <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">
-              name@flowbite.com
-            </span>
-          </Dropdown.Header>
-          <Dropdown.Item>Dashboard</Dropdown.Item>
-          <Dropdown.Item>Settings</Dropdown.Item>
-          <Dropdown.Item>Earnings</Dropdown.Item>
-          <Dropdown.Divider />
-          <Dropdown.Item>Sign out</Dropdown.Item>
-        </Dropdown>
+        {!user && <Button onClick={GoogleLogin}>Login</Button>}
+        {user && (
+          <Dropdown
+            inline
+            label={<Avatar alt="User settings" img={user.photoURL} rounded />}
+          >
+            <Dropdown.Header>
+              <span className="block text-sm">{user.displayName}</span>
+              <span className="block truncate text-sm font-medium">
+                {user.email}
+              </span>
+            </Dropdown.Header>
+            <Dropdown.Item>Watchlist</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item onClick={() => auth.signOut()}>
+              Sign out
+            </Dropdown.Item>
+          </Dropdown>
+        )}
         <Navbar.Toggle />
       </div>
+
       <Navbar.Collapse>
         <Navbar.Link active href="/">
           <p>Home</p>
