@@ -45,7 +45,7 @@ const Nav = () => {
                 {user.email}
               </span>
             </Dropdown.Header>
-            <Dropdown.Item>Watchlist</Dropdown.Item>
+            <Dropdown.Item><Link to="/watchlist">Watchlist</Link></Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={() => auth.signOut()}>
               Sign out
