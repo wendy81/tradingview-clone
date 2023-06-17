@@ -1,10 +1,12 @@
 import { Card, Timeline } from "flowbite-react";
+import profilePic from "../media/profilepic.jpg"
 
 const About = () => {
   return (
     <Card className="w-full max-w-screen-xl m-auto my-5">
       <div className="flex justify-end px-4 pt-4"></div>
       <div className="flex flex-col items-center pb-10">
+        <img src={profilePic} alt="profile picture" className="h-24 mb-3 rounded-full shadow-lg" />
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
           Yusuf Yiğit Aydemir
         </h5>

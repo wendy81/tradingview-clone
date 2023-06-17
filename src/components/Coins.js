@@ -27,7 +27,7 @@ const Coins = () => {
   const indexOfFirstCoin = indexOfLastCoin - coinsPerPage;
   const currentCoins = coins?.slice(indexOfFirstCoin, indexOfLastCoin);
 
-  const onPageChange = (page: number) => setCurrentPage(page);
+  const onPageChange = (page) => setCurrentPage(page);
 
   return (
     <div>
