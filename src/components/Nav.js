@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Navbar, Dropdown, Avatar, Button } from "flowbite-react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from "../utils/Firebase";
@@ -56,10 +56,8 @@ const Nav = () => {
       </div>
 
       <Navbar.Collapse>
-        <Navbar.Link active href="/">
-          <p>Home</p>
-        </Navbar.Link>
-        <Navbar.Link href="/about">About</Navbar.Link>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/about">About</NavLink>
       </Navbar.Collapse>
     </Navbar>
   );
