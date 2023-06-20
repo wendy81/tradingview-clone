@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Table, Checkbox, Pagination } from "flowbite-react/lib/esm";
 import { Link } from "react-router-dom";
-import { Doc, setDoc } from "firebase/firestore"
+import { doc, setDoc } from "firebase/firestore"
+import { db, auth } from "../utils/Firebase"
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const Coins = () => {
   const [coins, setCoins] = useState();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [coinsPerPage, setCoinsPerPage] = useState(10);
+
+  const [user, loading] = useAuthState(auth)
 
   useEffect(() => {
     const options = {
@@ -30,6 +34,36 @@ const Coins = () => {
 
   const onPageChange = (page) => setCurrentPage(page);
 
+  const handleWatchlist = async (isChecked, coinUuid) => {
+    //e.preventDefault()
+
+    console.log("handleWatchlist called", isChecked, coinUuid);
+
+    if(user){
+      try{
+        const userId = user.uid
+        const watchlistRef = doc(db, "users", userId.toString())
+
+        const watchlistSnapshot = await watchlistRef.get()
+        const watchlistData = watchlistSnapshot.data() || {}
+        const { watchlist } = watchlistData
+
+        const updatedWatchlist = watchlist ? { ...watchlist } : {}
+        if(updatedWatchlist[coinUuid]) {
+          delete updatedWatchlist[coinUuid]
+        }else{
+          updatedWatchlist[coinUuid] = true
+        }
+
+        await setDoc(watchlistRef, { watchlist: updatedWatchlist })
+
+        console.log("watchlist updated successfully")
+      } catch (error) {
+        console.error("error updating watchlist: ", error)
+      }
+    }
+  }
+
   return (
     <div>
       <Table hoverable className="w-full max-w-screen-xl m-auto my-5">
@@ -48,7 +82,7 @@ const Coins = () => {
               className="bg-white dark:border-gray-700 dark:bg-gray-800"
             >
               <Table.Cell className="!p-4">
-                <Checkbox />
+                <Checkbox value={coin.uuid} onChange={(e) => handleWatchlist(e.target.checked, coin.uuid)} />
               </Table.Cell>
               <Table.Cell>{coin.rank}</Table.Cell>
               <Table.Cell className="flex justify-start items-center whitespace-nowrap font-medium">
