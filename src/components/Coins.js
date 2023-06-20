@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Checkbox, Pagination } from "flowbite-react/lib/esm";
 import { Link } from "react-router-dom";
+import { Doc, setDoc } from "firebase/firestore"
 
 const Coins = () => {
   const [coins, setCoins] = useState();
